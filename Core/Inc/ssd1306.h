@@ -90,7 +90,7 @@ SSD1306_t SSD1306;
 
 void SSD1306_DrawMenus(uint8_t MenuNumber);
 
-void SSD1306_Draw_intrologo(const unsigned char *logo);
+void SSD1306_Draw_intrologo(const unsigned char *logo, uint8_t color);
 
 void SSD1306_DrawIntroFreezer(int delay);
 

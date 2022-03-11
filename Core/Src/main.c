@@ -25,6 +25,7 @@
 #include "stdio.h"
 
 #include "ssd1306.h"
+#include "catito.h"
 #include "fonts.h"
 #include "tim_1.h"
 #include "ds18b20.h"
@@ -127,8 +128,15 @@ int main(void) {
 
 	/*	--- INTRO ---	*/
 
-	if (0)
+	if (1) {
+		SSD1306_InvertDisplay(1);
+		SSD1306_Draw_intrologo(catito, 1);
+		SSD1306_InvertDisplay(0);
+		SSD1306_Draw_intrologo(catito, 1);
+
+		SSD1306_InvertDisplay(0);
 		SSD1306_DrawIntroFreezer(3000);
+	}
 
 	/*	--- INTRO END ---	*/
 
@@ -136,8 +144,7 @@ int main(void) {
 
 	/*	--- PAINEL DE TEMPERATURA --- */
 
-	Temperature = DS18B20_Run(&Presence);
-
+	//Temperature = DS18B20_Run(&Presence);
 	//SUPERIOR AREA - TENSAO PELTIER  // TODO: Create a function to get the voltage of the peltier
 	SSD1306_GotoXY(2, 0);
 	SSD1306_Puts("Vpeltier:  ", &Font_7x10, 1);
@@ -147,14 +154,14 @@ int main(void) {
 	sprintf(Temperature_txt, "%.1f", Temperature); /* Converts number to string */
 
 	SSD1306_GotoXY(5, 15);
-	SSD1306_Puts(Temperature_txt, &Font_16x26, 1);
+	SSD1306_Puts("--", &Font_16x26, 1);
 	SSD1306_Puts(" C", &Font_16x26, 1);
 	SSD1306_DrawCircle(SSD1306.CurrentX + 4, SSD1306.CurrentY + 4, 2, 1); /* Draws the grade sign -> "°" <- */
 
 	//INFERIOR AREA - MENU
 	SSD1306_GotoXY(1, 64 - 18);
 	SSD1306_Puts("Menu", &Font_11x18, 1);
-
+	SSD1306_UpdateScreen();
 	/*	--- PAINEL DE TEMPERATURA END --- */
 
 	while (1) {
@@ -184,6 +191,8 @@ int main(void) {
 
 		SSD1306_GotoXY(5, 15);
 		SSD1306_Puts(Temperature_txt, &Font_16x26, 1);
+		SSD1306_Puts(" C", &Font_16x26, 1);
+		SSD1306_DrawCircle(SSD1306.CurrentX + 4, SSD1306.CurrentY + 4, 2, 1); /* Draws the grade sign -> "°" <- */
 
 		/* --- PANEL DRAW END --- */
 
@@ -231,6 +240,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 		SSD1306_GotoXY(1, 64 - 18);
 		SSD1306_Puts("Menu", &Font_11x18, 0);
 		SSD1306_UpdateScreen();
+
+		SSD1306_GotoXY(65, 64 - 18);
+		SSD1306_Puts("XABLAUUU", &Font_11x18, 1);
 
 		delay_us(1000);
 	}

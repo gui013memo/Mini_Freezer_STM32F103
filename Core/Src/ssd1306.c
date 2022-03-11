@@ -93,8 +93,8 @@ void SSD1306_DrawMenus(uint8_t MenuNumber) {
 
 }
 
-void SSD1306_Draw_intrologo(const unsigned char *logo) {
-	SSD1306_DrawBitmap(25, 0, logo, 128, 64, 1);
+void SSD1306_Draw_intrologo(const unsigned char *logo, uint8_t color) {
+	SSD1306_DrawBitmap(25, 0, logo, 128, 64, color);
 	//SSD1306_InvertDisplay(1);
 
 	SSD1306_UpdateScreen();
@@ -114,7 +114,7 @@ void SSD1306_Draw_intrologo(const unsigned char *logo) {
 
 void SSD1306_DrawIntroFreezer(int delay) {
 
-	SSD1306_Draw_intrologo(Logo_GO_bmp);
+	SSD1306_Draw_intrologo(Logo_GO_bmp, 1);
 
 	SSD1306_GotoXY(2, 0);
 	SSD1306_Puts("Controlador", &Font_11x18, 1);
